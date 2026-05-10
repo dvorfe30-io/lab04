@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: |
           if [ "${{ runner.os }}" = "Windows" ]; then
-            ./build/hello_world_application/hello_world_application.exe
+            ./build/hello_world_application/Debug/hello_world_application.exe
           else
             ./build/hello_world_application/hello_world_application
           fi
@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |
           if [ "${{ runner.os }}" = "Windows" ]; then
-            echo "1 -2 1" | ./build/solver_application/solver_application.exe
+            echo "1 -2 1" | ./build/solver_application/Debug/solver_application.exe
           else
             echo "1 -2 1" | ./build/solver_application/solver_application
           fi

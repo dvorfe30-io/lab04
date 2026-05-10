@@ -39,4 +39,4 @@ jobs:
             echo "1 -2 1" | ./build/solver_application/solver_application.exe
           else
             echo "1 -2 1" | ./build/solver_application/solver_application
-          f
+          fi

@@ -10,32 +10,41 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            compiler: gcc
+            cc: gcc
+            cxx: g++
+          - os: windows-latest
+            compiler: msvc
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configure
-        run: cmake -S . -B build
+      - name: project_configure
+        env:
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx }}
+        run: cmake ${{github.workspace}} -B ${{github.workspace}}/build
 
-      - name: Build
-        run: cmake --build build
+      - name: project_build
+        run: cmake --build ${{github.workspace}}/build
 
-      - name: Test hello_world
+      - name: hello_world_test
         shell: bash
         run: |
-          if [ "${{ runner.os }}" = "Windows" ]; then
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
             ./build/hello_world_application/Debug/hello_world_application.exe
           else
             ./build/hello_world_application/hello_world_application
           fi
 
-      - name: Test solver
+      - name: solver_test
         shell: bash
         run: |
-          if [ "${{ runner.os }}" = "Windows" ]; then
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
             echo "1 -2 1" | ./build/solver_application/Debug/solver_application.exe
           else
             echo "1 -2 1" | ./build/solver_application/solver_application
